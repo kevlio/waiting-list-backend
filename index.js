@@ -2,10 +2,24 @@ const http = require("http");
 const { Server } = require("socket.io");
 const { instrument } = require("@socket.io/admin-ui");
 
-const server = http.createServer();
 const knex = require("./db");
 
 // Socket io admin
+
+const server = http.createServer((request, response) => {
+    
+    // 1. Tell the browser everything is OK (Status code 200), and the data is in plain text
+    res.setHeader('Access-Control-Allow-Origin', '*');
+	  res.setHeader('Access-Control-Request-Method', '*');
+	  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+	  res.setHeader('Access-Control-Allow-Headers', '*');
+
+    // 2. Write the announced text to the body of the page
+    response.write('Hello, World!\n');
+
+    // 3. Tell the server that all of the response headers and body have been sent
+    response.end();
+});
 
 const io = new Server(server, {
   cors: {
