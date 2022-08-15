@@ -9,7 +9,7 @@ const knex = require("./db");
 
 const io = new Server(server, {
   cors: {
-    origin: ["https://admin.socket.io", "http://localhost:3000", "https://amritb.github.io/"],
+    origin: ["https://admin.socket.io", "http://localhost:3000", "https://amritb.github.io/", "https://osuka-waitinglist.herokuapp.com/"],
     credentials: true
   },
 });
