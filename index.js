@@ -62,6 +62,8 @@ io.on("connection", async (socket) => {
 
   socket.emit("matchmake:notify", waiting.length);
 
+  socket.emit("tjoflojt", process.env.TEXT);
+
   socket.emit(
     "new",
     await knex("help_requests").select("*").where("done", false)
