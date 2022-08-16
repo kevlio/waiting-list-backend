@@ -125,6 +125,6 @@ io.on("connection", async (socket) => {
   });
 });
 
-server.listen(process.env.PORT || 8000, () => {
-  console.log(`listening on port ${process.env.PORT || 8000}`);
+server.listen(process.env.PORT, () => {
+  console.log(`listening on port ${process.env.PORT}`);
 });
