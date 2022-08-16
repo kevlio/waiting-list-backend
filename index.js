@@ -7,24 +7,23 @@ const knex = require("./db");
 // Socket io admin
 
 const server = http.createServer((request, response) => {
-    
-    // 1. Tell the browser everything is OK (Status code 200), and the data is in plain text
-    res.setHeader('Access-Control-Allow-Origin', '*');
-	  res.setHeader('Access-Control-Request-Method', '*');
-	  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
-	  res.setHeader('Access-Control-Allow-Headers', '*');
+  // 1. Tell the browser everything is OK (Status code 200), and the data is in plain text
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Request-Method", "*");
+  res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET");
+  res.setHeader("Access-Control-Allow-Headers", "*");
 
-    // 2. Write the announced text to the body of the page
-    response.write('Hello, World!\n');
+  // 2. Write the announced text to the body of the page
+  response.write("Hello, World!\n");
 
-    // 3. Tell the server that all of the response headers and body have been sent
-    response.end();
+  // 3. Tell the server that all of the response headers and body have been sent
+  response.end();
 });
 
 const io = new Server(server, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST"]
+    methods: ["GET", "POST"],
   },
 });
 
@@ -61,7 +60,7 @@ let waiting = [];
 io.on("connection", async (socket) => {
   console.log("A user connected");
 
-  socket.emit("matchmake:notify", waiting.length)
+  socket.emit("matchmake:notify", waiting.length);
 
   socket.emit(
     "new",
@@ -111,21 +110,21 @@ io.on("connection", async (socket) => {
 
   socket.onAny((event, ...args) => {
     console.log(event, args);
-  })
-  
+  });
+
   socket.on("disconnect", () => {
     const foundInWaiting = waiting.find((x) => x.sid === socket.id);
     if (foundInWaiting) {
-      waiting = waiting.filter(x => x.sid !== socket.id);
+      waiting = waiting.filter((x) => x.sid !== socket.id);
     }
 
     io.emit("matchmake:notify", waiting.length);
     if (waiting.length > 0) {
       waiting.forEach((x) => io.to(x.sid).emit("matchmake:update", waiting));
     }
-  })
+  });
 });
 
-server.listen(process.env.PORT, () => {
-  console.log(`listening on port ${process.env.PORT}`);
+server.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`);
 });
